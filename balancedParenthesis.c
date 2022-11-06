@@ -40,6 +40,7 @@ int balanceParenthesis(char in[],int length)
     int parenCount = 0;
     int ticked = 0;
     int balanced = 0;
+    int LOCK = 0;
 
     while((i < length))
     {   
@@ -54,7 +55,16 @@ int balanceParenthesis(char in[],int length)
             parenCount--;
         }
 
-        if((parenCount ==0) && (ticked ==1))
+        //permanently unbalanced case bc ')' was first
+        if((in[i] == ')') && (ticked == 0))
+        {
+            parenCount--;
+            balanced = 0;
+            LOCK = 1;
+            i = length;
+        }
+
+        if((parenCount ==0) && (ticked ==1) && (LOCK ==0))
         {
             balanced = 1;
             ticked = 0;
